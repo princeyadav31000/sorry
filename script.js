@@ -16,6 +16,7 @@ class HeartfeltApology {
 
         this.isHugActive = false;
         this.forgiveClicked = false;
+        this.hasBeenOpened = false;
         
         this.init();
     }
@@ -149,6 +150,15 @@ class HeartfeltApology {
         
         // Keep hover effect for desktop
         card.addEventListener('mouseenter', () => {
+            const clickIndicator = document.getElementById('clickIndicator');
+            
+            // Hide click indicator on hover (desktop users)
+            if (clickIndicator && !this.hasBeenOpened) {
+                clickIndicator.style.opacity = '0';
+                clickIndicator.style.transform = 'scale(0.5)';
+                this.hasBeenOpened = true;
+            }
+            
             this.onCardHover();
             // Start typing effect on hover for desktop
             if (!card.classList.contains('open')) {
@@ -337,7 +347,16 @@ class HeartfeltApology {
 
     openCard() {
         const card = document.getElementById('mainCard');
+        const clickIndicator = document.getElementById('clickIndicator');
+        
         card.classList.add('open');
+        
+        // Hide the click indicator after first interaction
+        if (clickIndicator && !this.hasBeenOpened) {
+            clickIndicator.style.opacity = '0';
+            clickIndicator.style.transform = 'scale(0.5)';
+            this.hasBeenOpened = true;
+        }
         
         // Trigger hover effects for mobile
         this.onCardHover();
